@@ -1,4 +1,4 @@
--- Better Crates v1.0.0
+-- Better Crates
 -- Klehrik
 
 log.info("Successfully loaded ".._ENV["!guid"]..".")
@@ -83,50 +83,47 @@ gm.pre_script_hook(gm.constants.__input_system_tick, function()
 end)
 
 
-gm.pre_code_execute(function(self, other, code, result, flags)
-    if code.name:match("oCustomObject_pInteractableCrate_Draw_0") then
-        local activator = Helper.get_client_player() == self.activator
+gm.pre_code_execute("gml_Object_oCustomObject_pInteractableCrate_Draw_0", function(self, other)
+    local activator = Helper.get_client_player() == self.activator
 
-        if not self.is_scrapper then
-            -- Move cursor to saved selection
-            if activator and self.active == 1.0 then
-                if not self.set_selection then
-                    self.set_selection = true
-                    self.selection = tier_selection[self.tier + 1]
-                end
-
-                -- [Net]  Send selection value to other players
-                if not Helper.is_singleplayer() then Helper.net_send("BetterCrates.selection", {self.x, self.y, self.selection}) end
-            else self.set_selection = nil
+    if not self.is_scrapper then
+        -- Move cursor to saved selection
+        if activator and self.active == 1.0 then
+            if not self.set_selection then
+                self.set_selection = true
+                self.selection = tier_selection[self.tier + 1]
             end
+
+            -- [Net]  Send selection value to other players
+            if not Helper.is_singleplayer() then Helper.net_send("BetterCrates.selection", {self.x, self.y, self.selection}) end
+        else self.set_selection = nil
+        end
+    end
+
+
+    if self.active > 1.0 then
+        -- Save current selection
+        if activator and not self.is_scrapper then
+            tier_selection[self.tier + 1] = self.selection
         end
 
 
-        if self.active > 1.0 then
-            -- Save current selection
-            if activator and not self.is_scrapper then
-                tier_selection[self.tier + 1] = self.selection
-            end
+        -- Cancel is selected (selection 0)
+        if self.selection == 0.0 then
+            self.active = 0.0
 
+            -- Give back player control
+            if activator then
+                self.activator.activity = 0.0
+                self.activator.activity_free = true
+                self.activator.activity_move_factor = 1.0
+                self.activator.activity_type = 0.0
+                self.last_move_was_mouse = true
 
-            -- Cancel is selected (selection 0)
-            if self.selection == 0.0 then
-                self.active = 0.0
-
-                -- Give back player control
-                if activator then
-                    self.activator.activity = 0.0
-                    self.activator.activity_free = true
-                    self.activator.activity_move_factor = 1.0
-                    self.activator.activity_type = 0.0
-                    self.last_move_was_mouse = true
-
-                    -- [Net]  Send reset signal to other players
-                    if self.is_scrapper and not Helper.is_singleplayer() then Helper.net_send("BetterCrates.reset", {self.x, self.y}) end
-                end
+                -- [Net]  Send reset signal to other players
+                if self.is_scrapper and not Helper.is_singleplayer() then Helper.net_send("BetterCrates.reset", {self.x, self.y}) end
             end
         end
-
     end
 end)
 
