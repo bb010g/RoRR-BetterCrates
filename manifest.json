@@ -1,10 +1,10 @@
 ﻿{
 	"name": "Better_Crates",
-	"version_number": "1.0.1",
+	"version_number": "1.0.2",
 	"website_url": "https://github.com/Klehrik/RoRR-BetterCrates",
 	"description": "Allows exiting command crates and saves last selection.",
 	"dependencies": [
-		"ReturnOfModding-ReturnOfModding-1.0.47",
-		"Klehrik-HelperFunctions-1.0.10"
+		"ReturnOfModding-ReturnOfModding-1.0.55",
+		"RoRRModdingToolkit-RoRR_Modding_Toolkit-1.2.1"
 	]
 }

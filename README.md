@@ -1,6 +1,6 @@
 Allows exiting command crates and saves last selection.
 
-Works in online multiplayer.
+Multiplayer support will be (re)added at a future date. 
 
 ---
 
