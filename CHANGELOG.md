@@ -1,3 +1,6 @@
+### v1.1.0
+* Now multiplayer synced.
+
 ### v1.0.2
 * Updated to use RMT.
 
