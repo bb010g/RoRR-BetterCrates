@@ -16,7 +16,7 @@ local saved = {}
 Initialize(function()
     -- Add Cancel item
     item = Item.new("betterCrates", "cancel", true)
-    item:set_sprite(Resources.sprite_load("betterCrates", "cancel", _ENV["!plugins_mod_folder_path"].."/sCancel.png", 1, 16, 16))
+    item:set_sprite(Resources.sprite_load("betterCrates", "cancel", _PLUGIN["plugins_mod_folder_path"].."/sCancel.png", 1, 16, 16))
     item:toggle_loot(false)
 
 
