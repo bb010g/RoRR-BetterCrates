@@ -4,7 +4,7 @@
 mods["MGReturns-ENVY"].auto()
 mods["RoRRModdingToolkit-RoRR_Modding_Toolkit"].auto(true)
 
-local item
+local cancel_item
 local packet_selection
 
 local saved = {}
@@ -15,9 +15,9 @@ local saved = {}
 
 Initialize(function()
     -- Add Cancel item
-    item = Item.new("betterCrates", "cancel", true)
-    item:set_sprite(Resources.sprite_load("betterCrates", "cancel", _PLUGIN["plugins_mod_folder_path"].."/sCancel.png", 1, 16, 16))
-    item:toggle_loot(false)
+    cancel_item = Item.new("betterCrates", "cancel", true)
+    cancel_item:set_sprite(Resources.sprite_load("betterCrates", "cancel", _PLUGIN["plugins_mod_folder_path"].."/sCancel.png", 1, 16, 16))
+    cancel_item:toggle_loot(false)
 
 
     -- Packet
@@ -54,7 +54,7 @@ Initialize(function()
                     saved[inst.__object_index] = inst.selection
                 end
 
-                if inst.contents:get(inst.selection) == item.object_id then
+                if inst.contents:get(inst.selection) == cancel_item.object_id then
                     inst.active = 0
 
                     -- Hide item UI
@@ -107,17 +107,17 @@ Initialize(function()
 
                 -- Insert Cancel item
                 local contents = inst.contents
-                if not contents:contains(item.object_id) then
+                if not contents:contains(cancel_item.object_id) then
 
                     -- Delete existing copies of Cancel
                     local size = #contents
                     for i = size - 1, 0, -1 do
-                        if contents:get(i) == item.object_id then
+                        if contents:get(i) == cancel_item.object_id then
                             contents:delete(i)
                         end
                     end
 
-                    contents:insert(0, item.object_id)
+                    contents:insert(0, cancel_item.object_id)
                 end
 
                 if Player.get_client():same(actor) then
